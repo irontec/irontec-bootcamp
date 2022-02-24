@@ -1,0 +1,36 @@
+variables:
+  REGISTRY_HOST: hub.irontec.com
+
+stages:
+  - build
+  - deploy stage
+  - deploy pre
+  - deploy prod
+
+
+build:
+  tags:
+    - docker
+    - runners
+  stage: build
+  only:
+    - tags
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_HOST
+    - docker build -t $REGISTRY_HOST/$CI_PROJECT_PATH/apache:$CI_COMMIT_TAG -t $REGISTRY_HOST/$CI_PROJECT_PATH/apache:latest -f docker/apache/Dockerfile .
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/apache:$CI_COMMIT_TAG
+    - docker push $REGISTRY_HOST/$CI_PROJECT_PATH/apache:latest
+
+
+deploy_staging:
+  stage: deploy stage
+  tags:
+    - BigCloudStage
+  only:
+    - tags
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_HOST
+    - docker service update --with-registry-auth --image $REGISTRY_HOST/$CI_PROJECT_PATH/apache:$CI_COMMIT_TAG irontec-bootcamp_apache
+  environment:
+    name: staging
+    url: ""

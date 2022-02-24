@@ -1,0 +1,8 @@
+.git
+.idea
+doc
+certs
+wp/wp-content/uploads
+wp/wp-content/cache
+utils
+docker/mysql/data

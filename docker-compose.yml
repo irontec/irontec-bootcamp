@@ -1,0 +1,107 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: Bootcamp_db
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql:delegated
+      - ./docker/mysql/initdb:/docker-entrypoint-initdb.d:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+    - 3306:3306
+  apache:
+    container_name: Bootcamp_apache
+    build:
+      context: .
+      dockerfile: docker/apache/Dockerfile
+      args:
+        - UID=1000
+        - GID=1000
+    environment:
+    - DB_NAME
+    - DB_USER
+    - DB_PASSWORD
+    - DB_PREFIX
+    - DB_HOST
+    - DB_CHARSET
+    - DB_COLLATE
+    - AUTH_KEY
+    - SECURE_AUTH_KEY
+    - LOGGED_IN_KEY
+    - NONCE_KEY
+    - AUTH_SALT
+    - SECURE_AUTH_SALT
+    - LOGGED_IN_SALT
+    - NONCE_SALT
+    - AUTOMATIC_UPDATER_DISABLED
+    - DISABLE_WP_CRON
+    - DISALLOW_FILE_EDIT
+    - ABSPATH
+    - WP_ENV
+    - WP_HOME
+    - WP_SITEURL
+    - WP_DEBUG
+    - WP_CACHE
+    - WP_ALLOW_MULTISITE
+    - MULTISITE
+    - SUBDOMAIN_INSTALL
+    - DOMAIN_CURRENT_SITE
+    - PATH_CURRENT_SITE
+    - SITE_ID_CURRENT_SITE
+    - BLOG_ID_CURRENT_SITE
+    volumes:
+      - ./wp:/var/www/html/web:delegated
+    profiles:
+      - debug
+  utils:
+    container_name: Bootcamp_utils
+    image: hub.irontec.com/internet/dockerfiles/utils/web-utils:latest
+    environment:
+      - WP_ENV
+      - WP_HOME
+      - WP_SITEURL
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+      - DB_PREFIX
+      - DB_HOST
+      - AUTH_KEY
+      - SECURE_AUTH_KEY
+      - LOGGED_IN_KEY
+      - NONCE_KEY
+      - AUTH_SALT
+      - SECURE_AUTH_SALT
+      - LOGGED_IN_SALT
+      - NONCE_SALT
+    volumes:
+      - ./utils:/utils:delegated
+      - ./wp:/var/www/html/web:delegated
+      - ./utils/ssh/config:/home/docker/.ssh/config
+    command: /bin/true
+  ha_proxy:
+    container_name: Bootcamp_haproxy
+    image: haproxy:2.1.4-alpine
+    volumes:
+      - ./docker/ha-proxy/certs/appdomain.localhost.pem:/usr/local/etc/haproxy/certs/appdomain.localhost.pem:ro
+      - ./docker/ha-proxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    #Descomentar para Worko
+    ports:
+      - 80:80
+      - 443:443
+    profiles:
+      - debug
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.8.5
+    links:
+    - ${DB_HOST}
+    environment:
+      PMA_USER: root
+      PMA_PASSWORD: ${DB_ROOT_PASSWORD}
+      PMA_HOST: ${DB_HOST}
+    ports:
+    - 9085:80

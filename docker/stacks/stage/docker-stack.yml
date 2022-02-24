@@ -1,0 +1,53 @@
+version: '3.4'
+services:
+  apache:
+    image: hub.irontec.com/XXXXXXX/YYYYYYYY/ZZZZZZZ/apache:${VERSION}
+    environment:
+      WP_ENV: staging
+      WP_HOME: https://appdomain.stage.irontec.com
+      WP_SITEURL: https://appdomain.stage.irontec.com
+      DB_NAME: appdomain_db
+      DB_USER: appdomain_user
+      DB_PASSWORD:
+      DB_PREFIX: wp_
+      DB_HOST: mysql_5_7_db
+      AUTH_KEY:
+      SECURE_AUTH_KEY:
+      LOGGED_IN_KEY:
+      NONCE_KEY:
+      AUTH_SALT:
+      SECURE_AUTH_SALT:
+      LOGGED_IN_SALT:
+      NONCE_SALT:
+    volumes:
+      - /opt/docker-apps/.mounts/ssh-sync/appdomain/uploads:/var/www/html/web/wp-content/uploads
+    networks:
+      appdomain:
+      mysql_5_7:
+    ports:
+      - 80
+    deploy:
+      mode: replicated
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 2000M
+      #        reservations:
+      #          cpus: '0.25'
+      #          memory: 20M
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 0
+      #        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 0s
+        failure_action: rollback
+        order: start-first
+networks:
+  appdomain:
+  mysql_5_7:
+    external:
+      name: mysql_5_7

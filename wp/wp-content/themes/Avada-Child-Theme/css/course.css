@@ -1,0 +1,42 @@
+.lp-archive-courses .course-summary .course-summary-content .course-detail-info {
+    background: #0e6ace;
+}
+
+#learn-press-course .course-summary-sidebar .course-sidebar-preview .media-preview {
+    text-align: center;
+}
+
+.fusion-avatar-circle .learn-press-tabs__nav .avatar, .fusion-avatar-circle .lp-profile-nav-tabs .avatar {
+    border-radius: 0;
+}
+
+#learn-press-profile .lp-content-area .wrapper-profile-header .lp-profile-content-area {
+    min-height: 300px;
+    padding-top: 0;
+}
+
+#learn-press-profile .lp-content-area .wrapper-profile-header .lp-profile-left {
+    margin: 15px 0;
+    padding: 15px;
+}
+
+#learn-press-profile .lp-content-area .wrapper-profile-header .lp-profile-right .lp-profile-username {
+    font-size: 30px;
+    padding-bottom: 10px;
+}
+
+#learn-press-profile .wrapper-profile-header .lp-profile-right {
+    padding-top: 35px;
+}
+
+.learn-press-form-login h3, .learn-press-form-register h3 {
+    margin-top: 0;
+}
+
+.learn-press-message {
+    width: 100%;
+}
+
+.ltr .fusion-menu-element-wrapper.dropdown-carets-yes:not(.collapse-enabled).direction-row.expand-method-hover.expand-left li.menu-item-has-children:not(.fusion-menu-item-button) ul a>:not(.fusion-open-nav-submenu) {
+    padding-right: 0 !important;
+}

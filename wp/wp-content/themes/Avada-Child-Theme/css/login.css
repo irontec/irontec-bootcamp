@@ -1,0 +1,31 @@
+.login h1 a {
+    background-image: url('/wp-content/uploads/2021/10/bootcamp_logo-1.png');
+    background-size: 280px 51px;
+    background-position: center top;
+    background-repeat: no-repeat;
+    width: 280px;
+    height: 51px;
+}
+
+/*
+.wp-core-ui .button-primary {
+    background: #00ca72;
+    border-color: #00ca72;
+    color: #ffffff;
+}
+
+.wp-core-ui .button, .wp-core-ui .button-secondary {
+    color: #00ca72;
+    border-color: #00ca72;
+}*/
+.wp-core-ui .button-primary {
+    background: #00ca72;
+    border-color: #00ca72;
+    color: #fff;
+}
+
+.wp-core-ui .button, .wp-core-ui .button-secondary {
+    color: #00ca72;
+    border-color: #00ca72;
+    background: #f6f7f7;
+}

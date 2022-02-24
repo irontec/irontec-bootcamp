@@ -1,0 +1,18 @@
+.idea
+.DS_Store
+docker/mysql/data
+# Application
+wp/wp-content/uploads/*
+!wp/wp-content/uploads/.gitkeep
+wp/wp-content/cache/*
+!wp/wp-content/cache/.gitkeep
+!wp/wp-content/cache/pagespeed
+wp/wp-content/cache/pagespeed/*
+!wp/wp-content/cache/pagespeed/.gitkeep
+utils/*
+!utils/certs/.gitkeep
+!utils/credentials/.gitkeep
+!utils/dumps/.gitkeep
+
+
+
